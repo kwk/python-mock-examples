@@ -23,6 +23,18 @@ class MyTestWithDecoratedMethod(TestCase):
         hello_mock.assert_called_once()
 
 
+class MyTestWithWith(TestCase):
+    def get_return_value(self):
+        return "Boh ya"
+
+    def test_greet(self):
+        with mock.patch(
+            "mypackage.mymodule.hello", return_value=self.get_return_value()
+        ) as hello_mock:
+            self.assertEqual(greet("John Doe"), "Boh ya, John Doe")
+            hello_mock.assert_called_once()
+
+
 @mock.patch("mypackage.mymodule.hello", return_value="Hallo")
 class MyTestWithDecoratedClass(TestCase):
     def test_greet(self, hello_mock):
