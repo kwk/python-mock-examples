@@ -1,6 +1,6 @@
 from unittest import TestCase, mock
 
-from mypackage.mymodule import greet, greetWithArg
+from mypackage.mymodule import Greeter, HelloAndBye, greet, greetWithArg
 
 
 class MyTestWithSetUp(TestCase):
@@ -54,3 +54,15 @@ class MyTestWithArg(TestCase):
 
         # Ensure helloWithArg() was passed the right value
         helloWithArg_mock.assert_called_once_with("Foobar")
+
+
+# Only mock the hello() method,
+# but keep the bye() method intact
+class PartiallyMockObjectMethods(TestCase):
+    def test_patch_hello(self):
+        g = Greeter()
+
+        with mock.patch.object(HelloAndBye, "hello") as m:
+            m.return_value = "mocked return value"
+            self.assertEqual(g.say_hello("John Doe"), "mocked return value")
+            self.assertEqual(g.say_bye("John Doe"), "Bye, John Doe!")
