@@ -1,6 +1,6 @@
 from unittest import TestCase, mock
 
-from mypackage.mymodule import Greeter, HelloAndBye, greet, greetWithArg
+from mypackage.mymodule import Greeter, greet, greetWithArg
 
 
 class MyTestWithSetUp(TestCase):
@@ -62,8 +62,8 @@ class PartiallyMockObjectMethods(TestCase):
     def test_patch_hello(self):
         g = Greeter()
 
-        with mock.patch.object(HelloAndBye, "hello") as m:
-            m.return_value = "mocked return value"
+        # Patching an object that isn't imported.
+        with mock.patch("mypackage.mymodule.HelloAndBye.hello", return_value="mocked return value") as m:
             self.assertEqual(g.say_hello("John Doe"), "mocked return value")
             m.assert_called_once_with("John Doe")
             self.assertEqual(g.say_bye("John Doe"), "Bye, John Doe!")
