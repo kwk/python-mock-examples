@@ -26,8 +26,8 @@ class HelloAndBye:
 
 
 class Greeter:
-    def __init__(self):
-        self.hello_obj = HelloAndBye()
+    def __init__(self, hello: HelloAndBye):
+        self.hello_obj = hello
 
     def say_hello(self, name: str) -> str:
         return self.hello_obj.hello(name)
