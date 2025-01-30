@@ -65,4 +65,5 @@ class PartiallyMockObjectMethods(TestCase):
         with mock.patch.object(HelloAndBye, "hello") as m:
             m.return_value = "mocked return value"
             self.assertEqual(g.say_hello("John Doe"), "mocked return value")
+            m.assert_called_once_with("John Doe")
             self.assertEqual(g.say_bye("John Doe"), "Bye, John Doe!")
