@@ -58,12 +58,10 @@ class MyTestWithArg(TestCase):
 
 # Only mock the hello() method,
 # but keep the bye() method intact
-class PartiallyMockObjectMethods(TestCase):
-    def test_patch_hello(self):
-        g = Greeter()
+def test_patch_hello(mocker):
+    m = mocker.patch("mypackage.mymodule.HelloAndBye.hello", return_value="mocked return value")
+    g = Greeter()
 
-        with mock.patch.object(HelloAndBye, "hello") as m:
-            m.return_value = "mocked return value"
-            self.assertEqual(g.say_hello("John Doe"), "mocked return value")
-            m.assert_called_once_with("John Doe")
-            self.assertEqual(g.say_bye("John Doe"), "Bye, John Doe!")
+    assert g.say_hello("John Doe") == "mocked return value"
+    m.assert_called_once_with("John Doe")
+    assert g.say_bye("John Doe") == "Bye, John Doe!"
